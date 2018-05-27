@@ -5,7 +5,7 @@ class DebugTable(object):
     """
 
     I don't use it anymore. This class helped me a lot on the
-    develop days because he displayed some variables in real time.
+    develop days because it displayed some variables in real time.
 
     """
     def __init__(self):

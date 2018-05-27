@@ -56,7 +56,7 @@ class Event(object):
     def start_win(self, core):
         """
 
-        Is starts when player touches the flag in the end of the level.
+        It's called when player touches the flag at the end of the level.
 
         """
         self.type = 1
