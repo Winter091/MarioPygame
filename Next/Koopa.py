@@ -118,7 +118,7 @@ class Koopa(Entity):
             if not self.on_ground:
                 self.y_vel += GRAVITY
 
-            blocks = core.get_map().get_blocks_for_collision(int(self.rect.x // 32), int((self.rect.y - 14) // 32))
+            blocks = core.get_map().get_blocks_for_collision(self.rect.x // 32, (self.rect.y - 14) // 32)
             self.update_x_pos(blocks)
             self.update_y_pos(blocks)
 
@@ -135,7 +135,7 @@ class Koopa(Entity):
             if not self.on_ground:
                 self.y_vel += GRAVITY
 
-            blocks = core.get_map().get_blocks_for_collision(int(self.rect.x // 32), int(self.rect.y // 32))
+            blocks = core.get_map().get_blocks_for_collision(self.rect.x // 32, self.rect.y // 32)
             self.update_x_pos(blocks)
             self.update_y_pos(blocks)
 

@@ -13,13 +13,13 @@ class PlatformDebris(pg.sprite.Sprite):
         super().__init__()
 
         # I don't know why I did it, but image depends on the world type: under and upper world.
-        # World type 1 is never used.
+        # World_type 1 is never used.
         if world_type == 0:
             self.image = pg.image.load('images/block_debris0.png').convert_alpha()
         elif world_type == 1:
             self.image = pg.image.load('images/block_debris1.png').convert_alpha()
 
-        # 4 individual small bricks
+        # 4 individual parts
         self.rectangles = [
             pg.Rect(x_pos - 20, y_pos + 16, 16, 16),
             pg.Rect(x_pos - 20, y_pos - 16, 16, 16),

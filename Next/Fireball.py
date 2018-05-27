@@ -26,15 +26,14 @@ class Fireball(object):
     def update_image(self, core):
         self.image_tick += 1
 
-        if self.image_tick % 15 == 0:
-            if self.state == 0:
+        if self.state == 0:
+            if self.image_tick % 15 == 0:
                 self.current_image += 1
                 if self.current_image > 3:
                     self.current_image = 0
                     self.image_tick = 0
 
         elif self.state == -1:
-            self.image_tick += 1
             if self.image_tick % 10 == 0:
                 self.current_image += 1
             if self.current_image == 7:
@@ -52,6 +51,8 @@ class Fireball(object):
         for block in blocks:
             if block != 0 and block.type != 'BGObject':
                 if pg.Rect.colliderect(self.rect, block.rect):
+
+                    # Fireball blows up only when collides on x-axis
                     self.start_boom()
 
     def update_y_pos(self, blocks):

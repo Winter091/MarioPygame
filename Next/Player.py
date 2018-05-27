@@ -171,6 +171,7 @@ class Player(pg.sprite.Sprite):
             if self.x_vel < 0 and (- self.x_vel) > MAX_MOVE_SPEED:
                 self.x_vel = - MAX_MOVE_SPEED
 
+        # removing the computational error
         if 0 < self.x_vel < SPEED_DECREASE_RATE:
             self.x_vel = 0
         if 0 > self.x_vel > -SPEED_DECREASE_RATE:
@@ -193,7 +194,7 @@ class Player(pg.sprite.Sprite):
         self.rect.y += self.y_vel
         self.update_y_pos(blocks, core)
 
-        # on_ground works incorrect without this piece of code
+        # on_ground parameter won't be stable without this piece of code
         coord_y = self.rect.y // 32
         if self.powerLVL > 0:
             coord_y += 1
@@ -211,8 +212,11 @@ class Player(pg.sprite.Sprite):
             core.get_map().player_win(core)
 
     def set_image(self, image_id):
+
+        # "Dead" sprite
         if image_id == len(self.sprites):
             self.image = self.sprites[-1]
+
         elif self.direction:
             self.image = self.sprites[image_id + self.powerLVL * 8]
         else:
@@ -228,10 +232,12 @@ class Player(pg.sprite.Sprite):
                 self.set_image(0)
                 self.spriteTick = 0
 
+            # Player is running
             elif (
-                    ((self.x_vel > 0 and core.keyR and not core.keyL) or (
-                            self.x_vel < 0 and core.keyL and not core.keyR)) or
-                    (self.x_vel > 0 and not (core.keyL or core.keyR)) or (self.x_vel < 0 and not (core.keyL or core.keyR))
+                    ((self.x_vel > 0 and core.keyR and not core.keyL) or
+                     (self.x_vel < 0 and core.keyL and not core.keyR)) or
+                    (self.x_vel > 0 and not (core.keyL or core.keyR)) or
+                    (self.x_vel < 0 and not (core.keyL or core.keyR))
             ):
                 if self.spriteTick <= 10:
                     self.set_image(1)
@@ -243,6 +249,7 @@ class Player(pg.sprite.Sprite):
                     self.spriteTick = 0
                     self.set_image(1)
 
+            # Player decided to move in the another direction, but hasn't stopped yet
             elif (self.x_vel > 0 and core.keyL and not core.keyR) or (self.x_vel < 0 and core.keyR and not core.keyL):
                 self.set_image(7)
                 self.spriteTick = 0

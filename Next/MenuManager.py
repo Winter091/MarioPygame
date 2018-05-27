@@ -15,6 +15,8 @@ class MenuManager(object):
 
     """
     def __init__(self, core):
+
+        # I decided to use enum, but there it's useless
         self.gameState = Enum('gameState', 'eMainMenu eLoading eGame')
 
         self.currentGameState = self.gameState.eMainMenu

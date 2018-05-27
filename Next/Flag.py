@@ -8,6 +8,8 @@ class Flag(object):
         self.flag_offset = 0
         self.flag_omitted = False
 
+        # Flag object consists of 2 parts:
+
         self.pillar_image = pg.image.load('images/flag_pillar.png').convert_alpha()
         self.pillar_rect = pg.Rect(x_pos + 8, y_pos, 16, 304)
 
