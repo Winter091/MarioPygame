@@ -392,6 +392,7 @@ class Player(pg.sprite.Sprite):
 
             if self.inLevelDownAnimationTime == 0:
                 self.inLevelDownAnimation = False
+                self.visible = True
             elif self.inLevelDownAnimationTime % 20 == 0:
                 if self.visible:
                     self.visible = False
