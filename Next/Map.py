@@ -54,7 +54,7 @@ class Map(object):
         self.tick = 0
         self.time = 400
 
-        self.oPlayer = Player(x_pos=6250, y_pos=351)
+        self.oPlayer = Player(x_pos=128, y_pos=351)
         self.oCamera = Camera(self.mapSize[0] * 32, 14)
         self.oEvent = Event()
         self.oGameUI = GameUI()
