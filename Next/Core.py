@@ -41,10 +41,10 @@ class Core(object):
             self.input()
             self.update()
             self.render()
-            self.clock.tick(100)
+            self.clock.tick(FPS)
 
     def input(self):
-        if self.get_mm().currentGameState == self.get_mm().gameState.eGame:
+        if self.get_mm().currentGameState == 'Game':
             self.input_player()
         else:
             self.input_menu()
@@ -83,8 +83,10 @@ class Core(object):
         for e in pg.event.get():
             if e.type == pg.QUIT:
                 self.run = False
+
             elif e.type == KEYDOWN:
-                self.get_mm().key_pressed(e.key, self)
+                if e.key == K_RETURN:
+                    self.get_mm().start_loading()
 
     def update(self):
         self.get_mm().update(self)

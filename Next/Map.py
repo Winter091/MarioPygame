@@ -54,7 +54,7 @@ class Map(object):
         self.tick = 0
         self.time = 400
 
-        self.oPlayer = Player(128, 351)
+        self.oPlayer = Player(x_pos=6250, y_pos=351)
         self.oCamera = Camera(self.mapSize[0] * 32, 14)
         self.oEvent = Event()
         self.oGameUI = GameUI()
@@ -168,7 +168,7 @@ class Map(object):
     def get_blocks_for_collision(self, x, y):
         """
 
-        Takes entitie's coordinate and returns tiles around this entity
+        Returns tiles around the entity
 
         """
         return (
@@ -191,7 +191,7 @@ class Map(object):
     def get_blocks_below(self, x, y):
         """
 
-        Returns 2 blocks below entity to check on_ground parameter
+        Returns 2 blocks below entity to check its on_ground parameter
 
         """
         return (
@@ -205,9 +205,9 @@ class Map(object):
     def spawn_tube(self, x_coord, y_coord):
         self.tubes.append(Tube(x_coord, y_coord))
 
-        # Adding collision just by adding tiles inside the tube.
-        # They will not render because we add them only in 1 of 2 arrays.
-        for y in range(y_coord, 12): # 12 because it's floor level
+        # Adding tube's collision just by spawning tiles inside the tube.
+        # They will not render because we are adding them to "collision" list.
+        for y in range(y_coord, 12): # 12 because it's ground level.
             for x in range(x_coord, x_coord + 2):
                 self.map[x][y] = Platform(x * 32, y * 32, image=None, type_id=0)
 
@@ -240,7 +240,7 @@ class Map(object):
 
         """
 
-        # Score is none when you kill a mob. If you got a killstreak,
+        # Score is none only when you kill a mob. If you got a killstreak,
         # amount of points for killing a mob will increase: 100, 200, 400, 800...
         # So you don't know how many points you should add.
         if score is None:
@@ -251,7 +251,7 @@ class Map(object):
             if self.score_for_killing_mob < 1600:
                 self.score_for_killing_mob *= 2
 
-        # That case for situations when you know the exact amount of points.
+        # That case for all other situations.
         else:
             self.text_objects.append(Text(str(score), 16, (x, y)))
 
@@ -280,6 +280,8 @@ class Map(object):
         Updating a map time.
 
         """
+
+        # Time updates only if map not in event
         if not self.in_event:
             self.tick += 1
             if self.tick % 40 == 0:
@@ -291,7 +293,16 @@ class Map(object):
                 self.player_death(core)
 
     def update_score_time(self):
+        """
+
+        When player kill mobs in a row, score for each mob
+        will increase. When player stops kill mobs, points
+        will reset to 100. This function updates these points.
+
+        """
         if self.score_for_killing_mob != 100:
+
+            # Delay is 750 ms
             if pg.time.get_ticks() > self.score_time + 750:
                 self.score_for_killing_mob //= 2
 
@@ -303,7 +314,7 @@ class Map(object):
     def try_spawn_mobs(self, core):
         """
 
-        These mobs will appear when player will reach the certain coordinate
+        These mobs will appear when player will reach the certain x-coordinate
 
         """
         if self.get_player().rect.x > 2080 and not self.is_mob_spawned[0]:
@@ -341,33 +352,44 @@ class Map(object):
         self.get_event().start_win(core)
 
     def update(self, core):
+
+        # All mobs
         self.update_entities(core)
 
         if not core.get_map().in_event:
+
+            # When player eats a mushroom
             if self.get_player().inLevelUpAnimation:
                 self.get_player().change_powerlvl_animation()
 
+            # Unlike the level up animation, player can move there
             elif self.get_player().inLevelDownAnimation:
                 self.get_player().change_powerlvl_animation()
                 self.update_player(core)
 
+            # Common case
             else:
                 self.update_player(core)
 
         else:
             self.get_event().update(core)
 
+        # Debris is 1) Particles which appears when player destroy a brick block
+        # 2) Coins which appears when player activate a "question" platform
         for debris in self.debris:
             debris.update(core)
 
+        # Player's fireballs
         for whizbang in self.whizbangs:
             whizbang.update(core)
 
+        # Text which represent how mapy points player get
         for text_object in self.text_objects:
             text_object.update(core)
 
-        # Centering a camera on player
-        self.get_camera().update(self.get_player().rect)
+        # Camera stops moving when player dies or touches a flag
+        if not self.in_event:
+            self.get_camera().update(core.get_map().get_player().rect)
 
         self.try_spawn_mobs(core)
 
@@ -377,12 +399,12 @@ class Map(object):
     def render_map(self, core):
         """
 
-        Renders only a tiles. It's used in main menu.
+        Rendering only tiles. It's used in main menu.
 
         """
         core.screen.blit(self.sky, (0, 0))
 
-        for obj_group in self.obj_bg, self.obj:
+        for obj_group in (self.obj_bg, self.obj):
             for obj in obj_group:
                 obj.render(core)
 
@@ -415,9 +437,11 @@ class Map(object):
         for debris in self.debris:
             debris.render(core)
 
+        self.flag.render(core)
+
         for text_object in self.text_objects:
             text_object.render_in_game(core)
 
-        self.flag.render(core)
         self.get_player().render(core)
+
         self.get_ui().render(core)

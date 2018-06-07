@@ -1,5 +1,6 @@
 WINDOW_W = 800
 WINDOW_H = 448
+FPS = 100
 
 # Player physics
 GRAVITY = 0.21

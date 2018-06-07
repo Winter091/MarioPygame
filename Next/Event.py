@@ -1,7 +1,6 @@
 import pygame as pg
 
 from Next.Const import *
-from Next.LoadingMenu import LoadingMenu
 
 
 class Event(object):
@@ -37,7 +36,7 @@ class Event(object):
     def start_kill(self, core, game_over):
         """
 
-        It's called when player gets killed.
+        Player gets killed.
 
         """
         self.type = 0
@@ -56,7 +55,7 @@ class Event(object):
     def start_win(self, core):
         """
 
-        It's called when player touches the flag at the end of the level.
+        player touches the flag.
 
         """
         self.type = 1
@@ -69,8 +68,9 @@ class Event(object):
 
         core.get_map().get_player().set_image(5)
         core.get_map().get_player().x_vel = 1
+        core.get_map().get_player().rect.x += 10
 
-        # Added score depends on the map's time left.
+        # Adding score depends on the map's time left.
         if core.get_map().time >= 300:
             core.get_map().get_player().add_score(5000)
             core.get_map().spawn_score_text(core.get_map().get_player().rect.x + 16, core.get_map().get_player().rect.y, score=5000)
@@ -95,7 +95,7 @@ class Event(object):
                     core.get_map().reset(False)
                     core.get_sound().play('overworld', 9999999, 0.5)
                 else:
-                    core.get_mm().currentGameState = core.get_mm().gameState.eLoading
+                    core.get_mm().currentGameState = 'Loading'
                     core.get_mm().oLoadingMenu.set_text_and_type('GAME OVER', False)
                     core.get_mm().oLoadingMenu.update_time()
                     core.get_sound().play('game_over', 0, 0.5)
@@ -115,7 +115,7 @@ class Event(object):
                     if self.tick == 1:
                         core.get_map().get_player().direction = False
                         core.get_map().get_player().set_image(6)
-                        core.get_map().get_player().rect.x += 32
+                        core.get_map().get_player().rect.x += 20
                     elif self.tick >= 30:
                         core.get_map().get_player().flag_animation_move(core, True)
                         core.get_map().get_player().update_image(core)
@@ -134,7 +134,7 @@ class Event(object):
                         self.time = pg.time.get_ticks()
 
                     elif pg.time.get_ticks() >= self.time + self.delay:
-                        core.get_mm().currentGameState = core.get_mm().gameState.eLoading
+                        core.get_mm().currentGameState = 'Loading'
                         core.get_mm().oLoadingMenu.set_text_and_type('BY S&D :)', False)
                         core.get_mm().oLoadingMenu.update_time()
                         core.get_sound().play('game_over', 0, 0.5)

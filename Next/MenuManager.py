@@ -1,7 +1,4 @@
-from enum import Enum
-
 import pygame as pg
-from pygame.locals import *
 
 from Next.LoadingMenu import LoadingMenu
 from Next.MainMenu import MainMenu
@@ -16,45 +13,36 @@ class MenuManager(object):
     """
     def __init__(self, core):
 
-        # I decided to use enum, but there it's useless
-        self.gameState = Enum('gameState', 'eMainMenu eLoading eGame')
-
-        self.currentGameState = self.gameState.eMainMenu
+        self.currentGameState = 'MainMenu'
 
         self.oMainMenu = MainMenu()
         self.oLoadingMenu = LoadingMenu(core)
 
     def update(self, core):
-        if self.currentGameState == self.gameState.eMainMenu:
+        if self.currentGameState == 'MainMenu':
             pass
 
-        elif self.currentGameState == self.gameState.eLoading:
+        elif self.currentGameState == 'Loading':
             self.oLoadingMenu.update(core)
 
-        elif self.currentGameState == self.gameState.eGame:
+        elif self.currentGameState == 'Game':
             core.get_map().update(core)
 
     def render(self, core):
-        if self.currentGameState == self.gameState.eMainMenu:
+        if self.currentGameState == 'MainMenu':
             core.get_map().render_map(core)
             self.oMainMenu.render(core)
 
-        elif self.currentGameState == self.gameState.eLoading:
+        elif self.currentGameState == 'Loading':
             self.oLoadingMenu.render(core)
 
-        elif self.currentGameState == self.gameState.eGame:
+        elif self.currentGameState == 'Game':
             core.get_map().render(core)
             core.get_map().get_ui().render(core)
 
         pg.display.update()
 
-    def key_pressed(self, key, core):
-        if self.currentGameState == self.gameState.eMainMenu:
-            if key == K_RETURN:
-
-                # Start load the level
-                self.currentGameState = self.gameState.eLoading
-                self.oLoadingMenu.update_time()
-
-    def get_debug_table(self):
-        return self.oDebugTable
+    def start_loading(self):
+            # Start to load the level
+            self.currentGameState = 'Loading'
+            self.oLoadingMenu.update_time()

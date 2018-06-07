@@ -13,11 +13,11 @@ class LoadingMenu(object):
     def update(self, core):
         if pg.time.get_ticks() >= self.iTime + (5250 if not self.loadingType else 2500):
             if self.loadingType:
-                core.oMM.currentGameState = core.oMM.gameState.eGame
+                core.oMM.currentGameState = 'Game'
                 core.get_sound().play('overworld', 999999, 0.5)
                 core.get_map().in_event = False
             else:
-                core.oMM.currentGameState = core.oMM.gameState.eMainMenu
+                core.oMM.currentGameState = 'MainMenu'
                 self.set_text_and_type('WORLD ' + core.oWorld.get_name(), True)
                 core.get_map().reset(True)
 
