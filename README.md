@@ -15,7 +15,7 @@ You need these python libraries:
 **Sorry for very bad English.**
 The game based on pygame library with loading .tmx level using pytmx library.
 
-Only level 1-1 was done due to lack of time, but most of the work is done. 
+Only level 1-1 was finished due to lack of time, but most of the work is done. 
 
 You can see how the game structure was made and use it in your own project.
 
