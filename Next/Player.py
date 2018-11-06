@@ -144,7 +144,7 @@ class Player(pg.sprite.Sprite):
             self.already_jumped = False
         elif core.keyU:
             if self.on_ground and not self.already_jumped:
-                self.y_vel -= JUMP_POWER
+                self.y_vel = -JUMP_POWER
                 self.already_jumped = True
                 self.next_jump_time = pg.time.get_ticks() + 750
                 if self.powerLVL >= 1:
