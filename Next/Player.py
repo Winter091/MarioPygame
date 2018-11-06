@@ -29,6 +29,7 @@ class Player(pg.sprite.Sprite):
         self.y_vel = 0
         self.direction = True
         self.on_ground = False
+        self.fast_moving = False
 
         self.image = pg.image.load('images/mario/mario.png').convert_alpha()
         self.sprites = []
@@ -152,8 +153,10 @@ class Player(pg.sprite.Sprite):
                 else:
                     core.get_sound().play('small_mario_jump', 0, 0.5)
 
-        # Fireball shoot
+        # Fireball shoot and fast moving
+        self.fast_moving = False
         if core.keyShift:
+            self.fast_moving = True
             if self.powerLVL == 2:
                 if pg.time.get_ticks() > self.next_fireball_time:
                     if not (self.inLevelUpAnimation or self.inLevelDownAnimation):
@@ -166,10 +169,19 @@ class Player(pg.sprite.Sprite):
             elif self.x_vel < 0:
                 self.x_vel += SPEED_DECREASE_RATE
         else:
-            if self.x_vel > 0 and self.x_vel > MAX_MOVE_SPEED:
-                self.x_vel = MAX_MOVE_SPEED
-            if self.x_vel < 0 and (- self.x_vel) > MAX_MOVE_SPEED:
-                self.x_vel = - MAX_MOVE_SPEED
+            if self.x_vel > 0:
+                if self.fast_moving:
+                    if self.x_vel > MAX_FASTMOVE_SPEED:
+                        self.x_vel = MAX_FASTMOVE_SPEED
+                else:
+                    if self.x_vel > MAX_MOVE_SPEED:
+                        self.x_vel = MAX_MOVE_SPEED
+            if self.x_vel < 0:
+                if self.fast_moving:
+                    if (-self.x_vel) > MAX_FASTMOVE_SPEED: self.x_vel = -MAX_FASTMOVE_SPEED
+                else:
+                    if (-self.x_vel) > MAX_MOVE_SPEED:
+                        self.x_vel = -MAX_MOVE_SPEED
 
         # removing the computational error
         if 0 < self.x_vel < SPEED_DECREASE_RATE:
