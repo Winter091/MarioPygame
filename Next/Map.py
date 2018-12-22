@@ -18,6 +18,7 @@ from Next.PlatformDebris import PlatformDebris
 from Next.CoinDebris import CoinDebris
 from Next.Fireball import Fireball
 from Next.Text import Text
+from Next.DebugTable import DebugTable
 
 
 class Map(object):
@@ -58,6 +59,7 @@ class Map(object):
         self.oCamera = Camera(self.mapSize[0] * 32, 14)
         self.oEvent = Event()
         self.oGameUI = GameUI()
+        self.oDebugTable = DebugTable()
 
     def loadWorld_11(self):
         tmxData = load_pygame("worlds/1-1/W11.tmx")
@@ -164,6 +166,9 @@ class Map(object):
 
     def get_ui(self):
         return self.oGameUI
+
+    def get_debugtable(self):
+        return self.oDebugTable
 
     def get_blocks_for_collision(self, x, y):
         """
@@ -396,6 +401,8 @@ class Map(object):
         self.update_time(core)
         self.update_score_time()
 
+        self.get_debugtable().update_text(core)
+
     def render_map(self, core):
         """
 
@@ -443,5 +450,5 @@ class Map(object):
             text_object.render_in_game(core)
 
         self.get_player().render(core)
-
         self.get_ui().render(core)
+        self.get_debugtable().render(core)

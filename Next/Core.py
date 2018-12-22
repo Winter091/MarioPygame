@@ -66,6 +66,8 @@ class Core(object):
                     self.keyU = True
                 elif e.key == K_LSHIFT:
                     self.keyShift = True
+                elif e.key == K_F5:
+                    self.get_map().get_debugtable().change_mode()
 
             elif e.type == KEYUP:
                 if e.key == K_RIGHT:

@@ -37,6 +37,8 @@ class Player(pg.sprite.Sprite):
 
         self.rect = pg.Rect(x_pos, y_pos, 32, 32)
 
+        self.rect = pg.Rect()
+
     def load_sprites(self):
         self.sprites = [
             # 0 Small, stay
