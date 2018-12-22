@@ -37,8 +37,6 @@ class Player(pg.sprite.Sprite):
 
         self.rect = pg.Rect(x_pos, y_pos, 32, 32)
 
-        self.rect = pg.Rect()
-
     def load_sprites(self):
         self.sprites = [
             # 0 Small, stay
@@ -137,15 +135,21 @@ class Player(pg.sprite.Sprite):
         self.update_unkillable_time()
 
     def player_physics(self, core):
-        if core.keyR:
+
+        # Right arrow key
+        if core.keys[275]:
             self.x_vel += SPEED_INCREASE_RATE
             self.direction = True
-        if core.keyL:
+
+        # Left arrow key
+        if core.keys[276]:
             self.x_vel -= SPEED_INCREASE_RATE
             self.direction = False
-        if not core.keyU:
+
+        # Up arrow key
+        if not core.keys[273]:
             self.already_jumped = False
-        elif core.keyU:
+        else:
             if self.on_ground and not self.already_jumped:
                 self.y_vel = -JUMP_POWER
                 self.already_jumped = True
@@ -157,7 +161,8 @@ class Player(pg.sprite.Sprite):
 
         # Fireball shoot and fast moving
         self.fast_moving = False
-        if core.keyShift:
+        # Shift
+        if core.keys[16]:
             self.fast_moving = True
             if self.powerLVL == 2:
                 if pg.time.get_ticks() > self.next_fireball_time:
@@ -165,7 +170,8 @@ class Player(pg.sprite.Sprite):
                         if len(core.get_map().whizbangs) < 2:
                             self.shoot_fireball(core, self.rect.x, self.rect.y, self.direction)
 
-        if not (core.keyR or core.keyL):
+        # Not right or left
+        if not (core.keys[275] or core.keys[276]):
             if self.x_vel > 0:
                 self.x_vel -= SPEED_DECREASE_RATE
             elif self.x_vel < 0:
@@ -248,10 +254,10 @@ class Player(pg.sprite.Sprite):
 
             # Player is running
             elif (
-                    ((self.x_vel > 0 and core.keyR and not core.keyL) or
-                     (self.x_vel < 0 and core.keyL and not core.keyR)) or
-                    (self.x_vel > 0 and not (core.keyL or core.keyR)) or
-                    (self.x_vel < 0 and not (core.keyL or core.keyR))
+                    ((self.x_vel > 0 and core.keys[275] and not core.keys[276]) or
+                     (self.x_vel < 0 and core.keys[276] and not core.keys[275])) or
+                    (self.x_vel > 0 and not (core.keys[276] or core.keys[275])) or
+                    (self.x_vel < 0 and not (core.keys[276] or core.keys[275]))
             ):
                 if self.spriteTick <= 10:
                     self.set_image(1)
@@ -264,7 +270,7 @@ class Player(pg.sprite.Sprite):
                     self.set_image(1)
 
             # Player decided to move in the another direction, but hasn't stopped yet
-            elif (self.x_vel > 0 and core.keyL and not core.keyR) or (self.x_vel < 0 and core.keyR and not core.keyL):
+            elif (self.x_vel > 0 and core.keys[276] and not core.keys[275]) or (self.x_vel < 0 and core.keys[275] and not core.keys[276]):
                 self.set_image(7)
                 self.spriteTick = 0
 

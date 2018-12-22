@@ -36,6 +36,10 @@ class Core(object):
         self.keyD = False
         self.keyShift = False
 
+        self.keys = [False] * 512
+        self.keys_duration = [0] * 512
+        self.pressed_this_frame = []
+
     def main_loop(self):
         while self.run:
             self.input()
@@ -50,36 +54,40 @@ class Core(object):
             self.input_menu()
 
     def input_player(self):
+        self.pressed_this_frame = []
+
         for e in pg.event.get():
 
             if e.type == pg.QUIT:
                 self.run = False
 
             elif e.type == KEYDOWN:
-                if e.key == K_RIGHT:
-                    self.keyR = True
-                elif e.key == K_LEFT:
-                    self.keyL = True
-                elif e.key == K_DOWN:
-                    self.keyD = True
-                elif e.key == K_UP:
-                    self.keyU = True
-                elif e.key == K_LSHIFT:
-                    self.keyShift = True
-                elif e.key == K_F5:
-                    self.get_map().get_debugtable().change_mode()
+                print(e.key)
+                self.keys[e.key] = True
+                self.pressed_this_frame.append(e.key)
+
+                # F5
+                if e.key == 286:
+                    self.get_map().get_console().change_mode()
 
             elif e.type == KEYUP:
-                if e.key == K_RIGHT:
-                    self.keyR = False
-                elif e.key == K_LEFT:
-                    self.keyL = False
-                elif e.key == K_DOWN:
-                    self.keyD = False
-                elif e.key == K_UP:
-                    self.keyU = False
-                elif e.key == K_LSHIFT:
-                    self.keyShift = False
+                self.keys[e.key] = False
+                self.keys_duration[e.key] = 0
+
+        # Long press
+        for i in range(32, 127):
+            if self.keys[i]:
+                self.keys_duration[i] += 1
+                print(i, self.keys_duration[i])
+            else:
+                self.keys_duration[i] = 0
+
+        # Backspace
+        if self.keys[8]:
+            self.keys_duration[8] += 1
+            print(i, self.keys_duration[i])
+        else:
+            self.keys_duration[8] = 0
 
     def input_menu(self):
         for e in pg.event.get():
