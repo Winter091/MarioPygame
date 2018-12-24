@@ -8,17 +8,17 @@ class LoadingMenu(object):
         self.iTime = pg.time.get_ticks()
         self.loadingType = True
         self.bg = pg.Surface((WINDOW_W, WINDOW_H))
-        self.text = Text('WORLD ' + core.oWorld.get_name(), 32, (WINDOW_W / 2, WINDOW_H / 2))
+        self.text = Text('WORLD ' + core.get_map().get_name(), 32, (WINDOW_W / 2, WINDOW_H / 2))
 
     def update(self, core):
         if pg.time.get_ticks() >= self.iTime + (5250 if not self.loadingType else 2500):
             if self.loadingType:
-                core.oMM.currentGameState = 'Game'
+                core.get_mm().currentGameState = 'Game'
                 core.get_sound().play('overworld', 999999, 0.5)
                 core.get_map().in_event = False
             else:
-                core.oMM.currentGameState = 'MainMenu'
-                self.set_text_and_type('WORLD ' + core.oWorld.get_name(), True)
+                core.get_mm().currentGameState = 'MainMenu'
+                self.set_text_and_type('WORLD ' + core.get_map().get_name(), True)
                 core.get_map().reset(True)
 
     def set_text_and_type(self, text, type):

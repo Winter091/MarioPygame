@@ -25,7 +25,7 @@ class Core(object):
         self.screen = pg.display.set_mode((WINDOW_W, WINDOW_H))
         self.clock = pg.time.Clock()
 
-        self.oWorld = Map('1-1')
+        self.oMap = Map('1-1')
         self.oSound = Sound()
         self.oMM = MenuManager(self)
 
@@ -62,7 +62,6 @@ class Core(object):
                 self.run = False
 
             elif e.type == KEYDOWN:
-                print(e.key)
                 self.keys[e.key] = True
                 self.pressed_this_frame.append(e.key)
 
@@ -78,14 +77,12 @@ class Core(object):
         for i in range(32, 127):
             if self.keys[i]:
                 self.keys_duration[i] += 1
-                print(i, self.keys_duration[i])
             else:
                 self.keys_duration[i] = 0
 
         # Backspace
         if self.keys[8]:
             self.keys_duration[8] += 1
-            print(i, self.keys_duration[i])
         else:
             self.keys_duration[8] = 0
 
@@ -105,7 +102,7 @@ class Core(object):
         self.get_mm().render(self)
 
     def get_map(self):
-        return self.oWorld
+        return self.oMap
 
     def get_mm(self):
         return self.oMM

@@ -3,7 +3,7 @@ import pygame as pg
 from Next.Const import *
 
 
-class Player(pg.sprite.Sprite):
+class Player(object):
     def __init__(self, x_pos, y_pos):
         super().__init__()
         self.numOfLives = 3
@@ -162,7 +162,7 @@ class Player(pg.sprite.Sprite):
         # Fireball shoot and fast moving
         self.fast_moving = False
         # Shift
-        if core.keys[16]:
+        if core.keys[304]:
             self.fast_moving = True
             if self.powerLVL == 2:
                 if pg.time.get_ticks() > self.next_fireball_time:
