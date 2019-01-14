@@ -1,6 +1,6 @@
 import pygame as pg
 
-from Next.Const import *
+from Const import *
 
 
 class Fireball(object):

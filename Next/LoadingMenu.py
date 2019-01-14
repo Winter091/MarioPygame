@@ -1,6 +1,7 @@
 import pygame as pg
-from Next.Const import *
-from Next.Text import Text
+
+from Const import *
+from Text import Text
 
 
 class LoadingMenu(object):

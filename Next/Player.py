@@ -1,11 +1,10 @@
 import pygame as pg
 
-from Next.Const import *
+from Const import *
 
 
-class Player(pg.sprite.Sprite):
+class Player(object):
     def __init__(self, x_pos, y_pos):
-        super().__init__()
         self.numOfLives = 3
         self.score = 0
         self.coins = 0

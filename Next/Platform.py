@@ -1,11 +1,8 @@
 import pygame as pg
 
-from Next.Const import *
 
-
-class Platform(pg.sprite.Sprite):
+class Platform(object):
     def __init__(self, x, y, image, type_id):
-        super().__init__()
         self.image = image
         self.rect = pg.Rect(x, y, 32, 32)
 

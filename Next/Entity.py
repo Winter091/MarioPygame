@@ -1,7 +1,5 @@
 import pygame as pg
 
-from Next.Const import *
-
 
 class Entity(object):
     """

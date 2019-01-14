@@ -1,23 +1,23 @@
 import pygame as pg
 from pytmx.util_pygame import load_pygame
 
-from Next.GameUI import GameUI
-from Next.BGObject import BGObject
-from Next.Camera import Camera
-from Next.Event import Event
-from Next.Flag import Flag
-from Next.Const import *
-from Next.Platform import Platform
-from Next.Player import Player
-from Next.Goombas import Goombas
-from Next.Mushroom import Mushroom
-from Next.Flower import Flower
-from Next.Koopa import Koopa
-from Next.Tube import Tube
-from Next.PlatformDebris import PlatformDebris
-from Next.CoinDebris import CoinDebris
-from Next.Fireball import Fireball
-from Next.Text import Text
+from GameUI import GameUI
+from BGObject import BGObject
+from Camera import Camera
+from Event import Event
+from Flag import Flag
+from Const import *
+from Platform import Platform
+from Player import Player
+from Goombas import Goombas
+from Mushroom import Mushroom
+from Flower import Flower
+from Koopa import Koopa
+from Tube import Tube
+from PlatformDebris import PlatformDebris
+from CoinDebris import CoinDebris
+from Fireball import Fireball
+from Text import Text
 
 
 class Map(object):
@@ -225,7 +225,7 @@ class Map(object):
 
     def spawn_debris(self, x, y, type):
         if type == 0:
-            self.debris.append(PlatformDebris(x, y, 0))
+            self.debris.append(PlatformDebris(x, y))
         elif type == 1:
             self.debris.append(CoinDebris(x, y))
 

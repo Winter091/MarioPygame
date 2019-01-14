@@ -1,7 +1,6 @@
 import pygame as pg
 
-from Next.Entity import Entity
-from Next.Const import *
+from Entity import Entity
 
 
 class Flower(Entity):

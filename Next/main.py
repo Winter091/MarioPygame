@@ -1,4 +1,4 @@
-from Next.Core import Core
+from Core import Core
 
 if __name__ == '__main__':
     oCore = Core()

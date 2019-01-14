@@ -1,25 +1,18 @@
 import pygame as pg
 
-from Next.Const import *
+from Const import *
 
 
-class PlatformDebris(pg.sprite.Sprite):
+class PlatformDebris(object):
     """
 
     Debris which appears when you destroy a brick block.
 
     """
-    def __init__(self, x_pos, y_pos, world_type):
-        super().__init__()
+    def __init__(self, x_pos, y_pos):
+        self.image = pg.image.load('images/block_debris0.png').convert_alpha()
 
-        # I don't know why I did it, but image depends on the world type: under and upper world.
-        # World_type 1 is never used.
-        if world_type == 0:
-            self.image = pg.image.load('images/block_debris0.png').convert_alpha()
-        elif world_type == 1:
-            self.image = pg.image.load('images/block_debris1.png').convert_alpha()
-
-        # 4 individual parts
+        # 4 different parts
         self.rectangles = [
             pg.Rect(x_pos - 20, y_pos + 16, 16, 16),
             pg.Rect(x_pos - 20, y_pos - 16, 16, 16),

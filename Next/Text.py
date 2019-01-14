@@ -1,5 +1,6 @@
 import pygame as pg
 
+
 class Text(object):
     def __init__(self, text, fontsize, rectcenter, font='Emulogic', textcolor = (255, 255, 255)):
         self.font = pg.font.SysFont(font, fontsize)
