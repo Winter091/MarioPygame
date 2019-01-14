@@ -17,8 +17,8 @@ class Fireball(object):
         self.image_tick = 0
         self.images = [pg.image.load('images/fireball.png').convert_alpha()]
         self.images.append(pg.transform.flip(self.images[0], 0, 90))
-        self.images.append(pg.transform.flip(self.images[0], 0, 180))
-        self.images.append(pg.transform.flip(self.images[0], 0, 270))
+        self.images.append(pg.transform.flip(self.images[0], 90, 90))
+        self.images.append(pg.transform.flip(self.images[0], 90, 0))
         self.images.append(pg.image.load('images/firework0.png').convert_alpha())
         self.images.append(pg.image.load('images/firework1.png').convert_alpha())
         self.images.append(pg.image.load('images/firework2.png').convert_alpha())
