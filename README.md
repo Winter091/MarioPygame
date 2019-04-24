@@ -1,3 +1,5 @@
+Messed up version with stupid useless console implemented in.
+
 # MarioPygame
 
 A python clone of the classic Super Mario Bros.
