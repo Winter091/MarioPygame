@@ -3,7 +3,7 @@ import pygame as pg
 
 class GameUI(object):
     def __init__(self):
-        self.font = pg.font.SysFont('Emulogic', 20)
+        self.font = pg.font.Font('fonts/emulogic.ttf', 20)
         self.text = 'SCORE COINS WORLD TIME LIVES'
 
     def render(self, core):

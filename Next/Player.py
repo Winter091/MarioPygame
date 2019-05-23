@@ -159,7 +159,7 @@ class Player(object):
             if self.powerLVL == 2:
                 if pg.time.get_ticks() > self.next_fireball_time:
                     if not (self.inLevelUpAnimation or self.inLevelDownAnimation):
-                        if len(core.get_map().whizbangs) < 2:
+                        if len(core.get_map().projectiles) < 2:
                             self.shoot_fireball(core, self.rect.x, self.rect.y, self.direction)
 
         if not (core.keyR or core.keyL):

@@ -28,13 +28,13 @@ class Map(object):
 
     """
 
-    def __init__(self, worldNum):
+    def __init__(self, world_num):
         self.obj = []
         self.obj_bg = []
         self.tubes = []
         self.debris = []
         self.mobs = []
-        self.whizbangs = []
+        self.projectiles = []
         self.text_objects = []
         self.map = 0
         self.flag = None
@@ -43,7 +43,7 @@ class Map(object):
         self.sky = 0
 
         self.textures = {}
-        self.worldNum = worldNum
+        self.worldNum = world_num
         self.loadWorld_11()
 
         self.is_mob_spawned = [False, False]
@@ -60,26 +60,26 @@ class Map(object):
         self.oGameUI = GameUI()
 
     def loadWorld_11(self):
-        tmxData = load_pygame("worlds/1-1/W11.tmx")
-        self.mapSize = (tmxData.width, tmxData.height)
+        tmx_data = load_pygame("worlds/1-1/W11.tmx")
+        self.mapSize = (tmx_data.width, tmx_data.height)
 
         self.sky = pg.Surface((WINDOW_W, WINDOW_H))
         self.sky.fill((pg.Color('#5c94fc')))
 
         # 2D List
-        self.map = [[0] * tmxData.height for i in range(tmxData.width)]
+        self.map = [[0] * tmx_data.height for i in range(tmx_data.width)]
 
         layer_num = 0
-        for layer in tmxData.visible_layers:
-            for y in range(tmxData.height):
-                for x in range(tmxData.width):
+        for layer in tmx_data.visible_layers:
+            for y in range(tmx_data.height):
+                for x in range(tmx_data.width):
 
                     # Getting pygame surface
-                    image = tmxData.get_tile_image(x, y, layer_num)
+                    image = tmx_data.get_tile_image(x, y, layer_num)
 
                     # It's none if there are no tile in that place
                     if image is not None:
-                        tileID = tmxData.get_tile_gid(x, y, layer_num)
+                        tileID = tmx_data.get_tile_gid(x, y, layer_num)
 
                         if layer.name == 'Foreground':
 
@@ -87,20 +87,20 @@ class Map(object):
                             if tileID == 22:
                                 image = (
                                     image,                                      # 1
-                                    tmxData.get_tile_image(0, 15, layer_num),   # 2
-                                    tmxData.get_tile_image(1, 15, layer_num),   # 3
-                                    tmxData.get_tile_image(2, 15, layer_num)    # activated
+                                    tmx_data.get_tile_image(0, 15, layer_num),   # 2
+                                    tmx_data.get_tile_image(1, 15, layer_num),   # 3
+                                    tmx_data.get_tile_image(2, 15, layer_num)    # activated
                                 )
 
                             # Map class has 1)"map" list, which is used in collision system because we can
                             # easily get block by x and y coordinate 2)"obj", "obj_bg" and simular arrays -
                             # they are used in rendering because you don't need to cycle through every
                             # (x, y) pair. Here we are adding the same platform object in 2 different arrays.
-                            self.map[x][y] = Platform(x * tmxData.tileheight, y * tmxData.tilewidth, image, tileID)
+                            self.map[x][y] = Platform(x * tmx_data.tileheight, y * tmx_data.tilewidth, image, tileID)
                             self.obj.append(self.map[x][y])
 
                         elif layer.name == 'Background':
-                            self.map[x][y] = BGObject(x * tmxData.tileheight, y * tmxData.tilewidth, image)
+                            self.map[x][y] = BGObject(x * tmx_data.tileheight, y * tmx_data.tilewidth, image)
                             self.obj_bg.append(self.map[x][y])
             layer_num += 1
 
@@ -230,7 +230,7 @@ class Map(object):
             self.debris.append(CoinDebris(x, y))
 
     def spawn_fireball(self, x, y, move_direction):
-        self.whizbangs.append(Fireball(x, y, move_direction))
+        self.projectiles.append(Fireball(x, y, move_direction))
 
     def spawn_score_text(self, x, y, score=None):
         """
@@ -260,7 +260,7 @@ class Map(object):
         self.map[object.rect.x // 32][object.rect.y // 32] = 0
 
     def remove_whizbang(self, whizbang):
-        self.whizbangs.remove(whizbang)
+        self.projectiles.remove(whizbang)
 
     def remove_text(self, text_object):
         self.text_objects.remove(text_object)
@@ -380,7 +380,7 @@ class Map(object):
             debris.update(core)
 
         # Player's fireballs
-        for whizbang in self.whizbangs:
+        for whizbang in self.projectiles:
             whizbang.update(core)
 
         # Text which represent how mapy points player get
@@ -431,7 +431,7 @@ class Map(object):
         for tube in self.tubes:
             tube.render(core)
 
-        for whizbang in self.whizbangs:
+        for whizbang in self.projectiles:
             whizbang.render(core)
 
         for debris in self.debris:

@@ -27,7 +27,7 @@ class DebugTable(object):
                 'Spr: ' + str(core.get_map().get_player().spriteTick) + ' J lock: ' + str(core.get_map().get_player().already_jumped),
                 'Up  : ' + str(core.get_map().get_player().inLevelUpAnimation) + '  time: ' + str(core.get_map().get_player().inLevelUpAnimationTime),
                 'Down: ' + str(core.get_map().get_player().inLevelDownAnimation) + '  time: ' + str(core.get_map().get_player().inLevelDownAnimationTime),
-                'Mobs: ' + str(len(core.get_map().get_mobs())) + ' FB: ' + str(len(core.get_map().whizbangs)) + ' Debris: ' + str(len(core.get_map().debris))
+                'Mobs: ' + str(len(core.get_map().get_mobs())) + ' FB: ' + str(len(core.get_map().projectiles)) + ' Debris: ' + str(len(core.get_map().debris))
             ]
 
     def render(self, core):
