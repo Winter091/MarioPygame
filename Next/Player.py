@@ -29,6 +29,8 @@ class Player(object):
         self.direction = True
         self.on_ground = False
         self.fast_moving = False
+        
+        self.pos_x = x_pos
 
         self.image = pg.image.load('images/mario/mario.png').convert_alpha()
         self.sprites = []
@@ -189,17 +191,26 @@ class Player(object):
             self.x_vel = 0
 
         if not self.on_ground:
-            self.y_vel += GRAVITY
+            # Moving up, button is pressed
+            if (self.y_vel < 0 and core.keyU):
+                self.y_vel += GRAVITY
+                
+            # Moving up, button is not pressed - low jump
+            elif (self.y_vel < 0 and not core.keyU):
+                self.y_vel += GRAVITY * LOW_JUMP_MULTIPLIER
+            
+            # Moving down
+            else:
+                self.y_vel += GRAVITY * FALL_MULTIPLIER
+            
             if self.y_vel > MAX_FALL_SPEED:
                 self.y_vel = MAX_FALL_SPEED
 
         blocks = core.get_map().get_blocks_for_collision(self.rect.x // 32, self.rect.y // 32)
-
-        # pg will add if -1 < x_vel < 0 and won't add if 0 < x_vel < 1. This piece of code fixes that problem
-        if self.x_vel > 0:
-            self.rect.x += (self.x_vel + 1)
-        else:
-            self.rect.x += self.x_vel
+        
+        self.pos_x += self.x_vel
+        self.rect.x = self.pos_x
+        
         self.update_x_pos(blocks)
 
         self.rect.y += self.y_vel
@@ -236,6 +247,8 @@ class Player(object):
     def update_image(self, core):
 
         self.spriteTick += 1
+        if (core.keyShift):
+            self.spriteTick += 1
 
         if self.powerLVL in (0, 1, 2):
 
@@ -250,6 +263,10 @@ class Player(object):
                     (self.x_vel > 0 and not (core.keyL or core.keyR)) or
                     (self.x_vel < 0 and not (core.keyL or core.keyR))
             ):
+                             
+                if (self.spriteTick > 30):
+                    self.spriteTick = 0
+                   
                 if self.spriteTick <= 10:
                     self.set_image(1)
                 elif 11 <= self.spriteTick <= 20:
@@ -282,9 +299,11 @@ class Player(object):
                 if pg.Rect.colliderect(self.rect, block.rect):
                     if self.x_vel > 0:
                         self.rect.right = block.rect.left
+                        self.pos_x = self.rect.left
                         self.x_vel = 0
                     elif self.x_vel < 0:
                         self.rect.left = block.rect.right
+                        self.pos_x = self.rect.left
                         self.x_vel = 0
 
     def update_y_pos(self, blocks, core):
@@ -323,6 +342,7 @@ class Player(object):
     def reset(self, reset_all):
         self.direction = True
         self.rect.x = 96
+        self.pos_x = 96
         self.rect.y = 351
         if self.powerLVL != 0:
             self.powerLVL = 0

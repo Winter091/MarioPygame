@@ -23,7 +23,7 @@ class PlatformDebris(object):
         self.rect = None
 
     def update(self, core):
-        self.y_vel += GRAVITY
+        self.y_vel += GRAVITY * FALL_MULTIPLIER
 
         for i in range(len(self.rectangles)):
             self.rectangles[i].y += self.y_vel

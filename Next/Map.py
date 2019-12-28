@@ -132,6 +132,7 @@ class Map(object):
         self.tubes = []
         self.debris = []
         self.mobs = []
+        self.is_mob_spawned = [False, False]
 
         self.in_event = False
         self.flag = None

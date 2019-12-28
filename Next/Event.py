@@ -85,7 +85,7 @@ class Event(object):
 
         # Death
         if self.type == 0:
-            self.y_vel += GRAVITY if self.y_vel < 6 else 0
+            self.y_vel += GRAVITY * FALL_MULTIPLIER if self.y_vel < 6 else 0
             core.get_map().get_player().rect.y += self.y_vel
 
             if pg.time.get_ticks() > self.time + self.delay:

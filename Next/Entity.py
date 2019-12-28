@@ -1,4 +1,5 @@
 import pygame as pg
+from Const import *
 
 
 class Entity(object):
@@ -34,7 +35,7 @@ class Entity(object):
                         self.x_vel = - self.x_vel
 
     def update_y_pos(self, blocks):
-        self.rect.y += self.y_vel
+        self.rect.y += self.y_vel * FALL_MULTIPLIER
 
         self.on_ground = False
         for block in blocks:

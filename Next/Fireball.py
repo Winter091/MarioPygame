@@ -48,6 +48,7 @@ class Fireball(object):
 
     def update_x_pos(self, blocks):
         self.rect.x += self.x_vel
+      
         for block in blocks:
             if block != 0 and block.type != 'BGObject':
                 if pg.Rect.colliderect(self.rect, block.rect):
@@ -65,6 +66,8 @@ class Fireball(object):
 
     def check_map_borders(self, core):
         if self.rect.x <= 0:
+            core.get_map().remove_whizbang(self)
+        elif self.rect.x >= 6768:
             core.get_map().remove_whizbang(self)
         elif self.rect.y > 448:
             core.get_map().remove_whizbang(self)
