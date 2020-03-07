@@ -5,7 +5,7 @@ A python remake of the classic Super Mario Bros.
 * [YouTube link](https://www.youtube.com/watch?v=WCkBDyX0qNI)
 
 ## About
-**Note: The code may be confusing because I'm just learning how to program, and my comments probably have many grammar errors.**
+**Note: The code is a bit messy. Live with it.**
 
 The game based on pygame with loading .tmx level using pytmx.
 
