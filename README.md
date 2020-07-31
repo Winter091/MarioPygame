@@ -24,8 +24,10 @@ And gameplay:
 
 ## Starting
 Install these python libraries:
-* pygame
-* pytmx
+```
+pip install pygame
+pip install pytmx
+```
 
  Then execute 'Next/main.py'. 
 
